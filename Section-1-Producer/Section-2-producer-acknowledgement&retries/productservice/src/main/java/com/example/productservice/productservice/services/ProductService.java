@@ -27,20 +27,20 @@ public class ProductService {
         );
 
         // asynchronous operation
-        CompletableFuture<SendResult<String, ProductCreateEvent>> future =  kafkaTemplate.send("product-created-events-topic", product.getId().toString(), productCreateEvent);
-        future.whenComplete((result, exception) -> {
-           if(exception != null){
-               LOGGER.error("Failed to sent message for " + productCreateEvent.getTitle() + exception.getMessage());
-           } else {
-               LOGGER.info("Successfully sent message for " + productCreateEvent.getTitle() + result.getRecordMetadata().toString());
-           }
-        });
+//        CompletableFuture<SendResult<String, ProductCreateEvent>> future =  kafkaTemplate.send("product-created-events-topic", product.getId().toString(), productCreateEvent);
+//        future.whenComplete((result, exception) -> {
+//           if(exception != null){
+//               LOGGER.error("Failed to sent message for " + productCreateEvent.getTitle() + exception.getMessage());
+//           } else {
+//               LOGGER.info("Successfully sent message for " + productCreateEvent.getTitle() + result.getRecordMetadata().toString());
+//           }
+//        });
         // end asynchronous operation
 
         // Synchronous operation
-//        LOGGER.info("***** Before Publishing event ****" + product.getTitle());
-//        SendResult<String, ProductCreateEvent> result =  kafkaTemplate.send("product-created-events-topic", product.getId().toString(), productCreateEvent).get();
-//        LOGGER.info("***** After Publishing event, result - " + result.getRecordMetadata().toString());
+        LOGGER.info("***** Before Publishing event ****" + product.getTitle());
+        SendResult<String, ProductCreateEvent> result =  kafkaTemplate.send("product-created-events-topic", product.getId().toString(), productCreateEvent).get();
+        LOGGER.info("***** After Publishing event, result - " + result.getRecordMetadata().toString());
         // end Synchronous operation
 
         LOGGER.info("***** Returning Product ****" + product.getTitle());
