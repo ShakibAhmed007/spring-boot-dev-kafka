@@ -27,7 +27,7 @@ public class ProductService {
         );
 
         // asynchronous operation
-//        CompletableFuture<SendResult<String, ProductCreateEvent>> future =  kafkaTemplate.send("product-created-events-topic", product.getId().toString(), productCreateEvent);
+//        CompletableFuture<SendResult<String, ProductCreateEvent>> future =  kafkaTemplate.send("product-create-update-event-topic", product.getId().toString(), productCreateEvent);
 //        future.whenComplete((result, exception) -> {
 //           if(exception != null){
 //               LOGGER.error("Failed to sent message for " + productCreateEvent.getTitle() + exception.getMessage());
@@ -39,11 +39,12 @@ public class ProductService {
 
         // Synchronous operation
         LOGGER.info("***** Before Publishing event ****" + product.getTitle());
-        SendResult<String, ProductCreateEvent> result =  kafkaTemplate.send("product-created-events-topic", product.getId().toString(), productCreateEvent).get();
+        SendResult<String, ProductCreateEvent> result =  kafkaTemplate.send("product-create-update-event-topic", product.getId().toString(), productCreateEvent).get();
         LOGGER.info("***** After Publishing event, result - " + result.getRecordMetadata().toString());
         // end Synchronous operation
 
         LOGGER.info("***** Returning Product ****" + product.getTitle());
+        LOGGER.info("***** Returning Product ****" + product.getId());
         return "Product Created - " + product.getTitle();
     }
 }
