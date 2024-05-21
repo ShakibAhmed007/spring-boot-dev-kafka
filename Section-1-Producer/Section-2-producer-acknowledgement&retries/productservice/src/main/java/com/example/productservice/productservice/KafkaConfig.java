@@ -18,4 +18,13 @@ public class KafkaConfig {
                 .configs(Map.of("min.insync.replicas","1"))
                 .build();
     }
+
+    @Bean
+    NewTopic createDeadLeterTopic(){
+        return TopicBuilder.name("product-create-update-event-topic.DLT")
+                .partitions(3)
+                .replicas(1)
+                .configs(Map.of("min.insync.replicas","1"))
+                .build();
+    }
 }
